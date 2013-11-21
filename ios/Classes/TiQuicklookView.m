@@ -11,9 +11,8 @@
 
 -(id)init
 {
-    if ((self = [super init]))
-    {
-        previewer = [QLPreviewController new];
+    if ((self = [super init])) {
+        previewer = [[QLPreviewController alloc] init];
         previewer.dataSource = self;
         previewer.delegate = self;
     }
@@ -45,15 +44,13 @@
 {
     return previewer.currentPreviewItemIndex;
 }
+
 -(void)setIndex_:(id)value
 {
     NSInteger index = [TiUtils intValue:value];
-    if (index < 0 || documents == nil || index >= [documents count])
-    {
+    if (index < 0 || documents == nil || index >= [documents count]) {
         NSLog(@"[ERROR] Attempted to set index out of bounds! Ignoring...");
-    }
-    else
-    {
+    } else {
         previewer.currentPreviewItemIndex = index;
     }
 }
@@ -75,21 +72,12 @@
 
 -(id <QLPreviewItem>)previewController: (QLPreviewController *)controller previewItemAtIndex:(NSInteger)index 
 {
-    if (documents == nil)
-    {
+    if (documents == nil) {
         return nil;
     }
     
     NSString* item = [documents objectAtIndex:index];
-    if ([[self proxy] _hasListeners:@"indexChanged"])
-    {
-        [[self proxy] fireEvent:@"indexChanged"
-                     withObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                 [NSNumber numberWithInt:index], @"index",
-                                 item, @"url",
-                                 nil]];
-    }
-    
+
     return [TiUtils toURL:item
                     proxy:self.proxy];
 }
@@ -101,28 +89,23 @@
  */
 -(BOOL)previewController:(QLPreviewController *)controller shouldOpenURL:(NSURL *)url forPreviewItem:(id <QLPreviewItem>)item
 {
-    if (documents == nil)
-    {
+    if (documents == nil) {
         return NO;
     }
     
     NSURL *currentUrl = [TiUtils toURL:[documents objectAtIndex:previewer.currentPreviewItemIndex]
                                  proxy:self.proxy];
-    if ([[currentUrl path] caseInsensitiveCompare:[url path]] == NSOrderedSame)
-    {
+    if ([[currentUrl path] caseInsensitiveCompare:[url path]] == NSOrderedSame) {
         return NO;
     }
     
-    if ([[self proxy] _hasListeners:@"click"])
-    {
+    if ([[self proxy] _hasListeners:@"click"]) {
         [self.proxy fireEvent:@"click"
                    withObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                [url absoluteString], @"url",
                                nil]];
         return NO;
-    }
-    else
-    {
+    } else {
         return YES;
     }
 }

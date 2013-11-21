@@ -31,13 +31,6 @@ The index of the currently visible document. Note that this is a zero-based inde
 
 ## Events
 
-### indexChanged
-
-Fired when the index of this view changes. Two properties are available in the first argument passed to any handlers:
-
-* index [int]: The zero-based index of the visible document
-* url [string]: The URL of the visible document
-
 ### click
 
 Fired when a URL is clicked in one of the previewed documents. If you do not register for this click event, the default
