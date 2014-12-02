@@ -1,5 +1,7 @@
 # Change Log
 <pre>
+v1.3.0  [TIMOB-18092] Updated to build for 64bit
+
 v1.2.2  [TIMODOPEN-269] Updated example to account for iOS 7 no longer supporting quickview of remote URLs.
         [TIMODOPEN-269] Removed 'indexChanged' event
 
